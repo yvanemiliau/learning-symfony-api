@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/api")
@@ -11,16 +12,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ApiController {
 
 	/**
-	 * @Route("/test", name="api_test")
+	 * @Route("/test", name="api_test", methods={"GET"})
 	 */
-	public function test()
+	public function test(SerializerInterface $serializer)
 	{
-		$data = new JsonResponse([
+		$data = [
 			'status' => true,
 			'message' => 'This is a test for your api',
-		]);
+		];
 
-		return $data;
+		$json = $serializer->serialize($data, 'json');
+
+		return new JsonResponse($json, 200, [], true);
 	}
 }
 
