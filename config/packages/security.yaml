@@ -11,8 +11,12 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        api_refresh:
+            pattern: ^/api/auth-refresh
+            stateless: true
+            provider: app_user_provider
         api_login:
-            pattern: ^/api/auth
+            pattern: ^/api/auth-tokens
             stateless: true
             provider: app_user_provider
             json_login:
@@ -44,6 +48,7 @@ security:
     access_control:
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/auth-tokens, roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth-refresh, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
